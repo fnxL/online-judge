@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block content %}
+<h1> {{title}} </h1> <br>
+<p> {{statement}} </p> <br>
+<p> {{sample_input|linebreaks}} </p> <br>
+<p> {{sample_output|linebreaks}} </p> <br>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <label for="lang">Language</label>
+    <input type="number" name="language" id="lang">
+    <br><br>
+    <label for="lang">Code</label> <br>
+    <textarea id="source" name="sourcecode" rows="4" cols="50">
+    </textarea>
+    <br>
+    <input type="submit">
+</form>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock content %}

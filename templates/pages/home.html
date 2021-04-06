@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Atharva OJ | Home{% endblock title %}
+
+{% block content %}
+<div class="header">
+<div class="menu-bar">
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      AtharvaOJ
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item is-active">
+        Home
+      </a>
+
+      <a class="navbar-item">
+        Problems
+      </a>
+      <a class="navbar-item">
+        Status
+      </a>
+      <a class="navbar-item">
+        Blog
+      </a>
+      <a class="navbar-item">
+        About
+      </a>
+      
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        {% if user.is_authenticated %}
+           <div class="navbar-item has-dropdown is-hoverable">
+           <a class="navbar-link">
+            {{request.user}}
+           </a>
+           <div class="navbar-dropdown">
+           <a class="navbar-item">
+            Settings
+           </a>
+           <a class="navbar-item">
+            Submissions
+           </a>
+           <a class="navbar-item" href={% url 'logout' %}>
+            Logout
+           </a>
+          {% else %}
+          <div class="buttons">
+            <a class="button is-primary is-light">
+              Sign up
+            </a>
+            <a class="button is-link is-light" href={% url 'login' %}>
+              Log in
+            </a>
+           </div>
+
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+</nav>
+</div>
+</div>
+{% endblock content %}

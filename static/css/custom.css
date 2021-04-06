@@ -1,0 +1,38 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Poppins', sans-serif;
+}
+
+nav.navbar {
+    min-height: 4rem;
+}
+
+nav.navbar-brand {
+    font-size: 20px;
+    font-weight: 800;
+    color: red;
+}
+
+.navbar-brand .navbar-item {
+    font-size: 30px;
+    font-weight: 700;
+    margin-right: 20px;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-start .navbar-item {
+    margin: 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.navbar-start .navbar-item:focus,
+.navbar-start .navbar-item:hover,
+.navbar-start .navbar-item .is-active {
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
