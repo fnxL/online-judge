@@ -7,6 +7,7 @@ from .forms import CreateUserForm
 
 # @login_required(login_url='login')
 def home(request):
+    
     return render(request, "pages/home.html", context={}, status=200)
 
 def log_out(request):

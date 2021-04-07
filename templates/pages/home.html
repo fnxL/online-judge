@@ -1,77 +1,172 @@
+
 {% extends 'base.html' %}
+{% block title %}AOJ | Home{% endblock title %} 
 
-{% block title %}Atharva OJ | Home{% endblock title %}
+{% block content %} 
+{% include 'navbar.html' %}
 
-{% block content %}
-<div class="header">
-<div class="menu-bar">
-<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="#">
-      AtharvaOJ
-    </a>
 
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item is-active">
-        Home
-      </a>
-
-      <a class="navbar-item">
-        Problems
-      </a>
-      <a class="navbar-item">
-        Status
-      </a>
-      <a class="navbar-item">
-        Blog
-      </a>
-      <a class="navbar-item">
-        About
-      </a>
-      
-    </div>
-
-    <div class="navbar-end">
-      <div class="navbar-item">
-        {% if user.is_authenticated %}
-           <div class="navbar-item has-dropdown is-hoverable">
-           <a class="navbar-link">
-            {{request.user}}
-           </a>
-           <div class="navbar-dropdown">
-           <a class="navbar-item">
-            Settings
-           </a>
-           <a class="navbar-item">
-            Submissions
-           </a>
-           <a class="navbar-item" href={% url 'logout' %}>
-            Logout
-           </a>
-          {% else %}
-          <div class="buttons">
-            <a class="button is-primary is-light">
-              Sign up
-            </a>
-            <a class="button is-link is-light" href={% url 'login' %}>
-              Log in
-            </a>
-           </div>
-
-        {% endif %}
+{% comment %} Welcome Header {% endcomment %}
+<div id="carouselExampleControls" class="carousel slide" data-mdb-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <section class="hero">
+        <div class="hero-inner">
+        <h1>
+        <span class="hero-tagline"> <strong> Welcome to Atharva Online Judge </strong></span>
         
-      </div>
+        </h1>
+        
+        <div class="indexbtns">
+          <a class="btn is-primary" href="#">Get Started</a>
+        </div>
+        </div>
+         
+        {% comment %} First Three Cards {% endcomment %}
+        </section>
+    </div>
+    <div class="carousel-item">
+      <section class="hero">
+        <div class="hero-inner">
+        <h1>
+        <span class="hero-tagline"> <strong> Welcome to Atharva Online Judge </strong></span>
+        
+        </h1>
+        
+        <div class="indexbtns">
+          <a class="btn is-primary" href="#">Get Started</a>
+        </div>
+        </div>
+         
+        {% comment %} First Three Cards {% endcomment %}
+        </section>
+    </div>
+    <div class="carousel-item">
+      <section class="hero">
+        <div class="hero-inner">
+        <h1>
+        <span class="hero-tagline"> <strong> Upcoming Contests </strong></span>
+        
+        </h1>
+        
+        <div class="indexbtns">
+          <a class="btn is-primary" href="#">Get Started</a>
+        </div>
+        </div>
+         
+        {% comment %} First Three Cards {% endcomment %}
+        </section>
     </div>
   </div>
-</nav>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-mdb-target="#carouselExampleControls"
+    data-mdb-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-mdb-target="#carouselExampleControls"
+    data-mdb-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
+
+
+
+
+
+{% comment %} Line Breaks {% endcomment %}
+<!-- <section style="max-width: 1400px; margin:auto;"> <hr class="breaker"> </section> -->
+ 
+<section class="container mt-5">
+<div class="row">
+  <div class="col-md-8">
+  {% comment %} Card Begin {% endcomment %}
+  <div class="card w-100 p-2 mb-4">
+  <h5 class="card-header d-flex justify-content-between align-items-center">Important Announcements! <span class="badge bg-warning text-dark">Updates</span></h5>
+  <div class="card-body">
+
+  {% comment %} Important Updates List Group {% endcomment %}
+     <div class="list-group">
+  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">More new problems!</h5>
+      <small>3 days ago</small>
+    </div>
+    <p class="mb-1">
+      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+      varius blandit.
+    </p>
+    <small>Donec id elit non mi porta.</small>
+  </a>
+  <a href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-muted">3 days ago</small>
+    </div>
+    <p class="mb-1">
+      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+      varius blandit.
+    </p>
+    <small class="text-muted">Donec id elit non mi porta.</small>
+  </a>
+  <a href="#" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-muted">3 days ago</small>
+    </div>
+    <p class="mb-1">
+      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+      varius blandit.
+    </p>
+    <small class="text-muted">Donec id elit non mi porta.</small>
+  </a>
 </div>
-{% endblock content %}
+  </div>
+</div> 
+{% comment %} Card End {% endcomment %}
+{% comment %} Card Begin {% endcomment %}
+  <div class="card w-100 p-2 mb-4">
+  <h5 class="card-header">Latest Problems</h5>
+  <div class="card-body">
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#">Problem name here</a><span class="badge bg-success">Easy</span></li>  
+      <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#">Problem name here</a><span class="badge bg-success">Easy</span></li>  
+      <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#">Problem name here</a><span class="badge bg-warningl">Medium</span></li>  
+      <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#">Problem name here</a><span class="badge bg-warningl">Medium</span></li>  
+      <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#">Problem name here</a><span class="badge bg-danger">Hard</span></li>  
+      <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#">Problem name here</a><span class="badge bg-danger">Hard</span></li>  
+    </ul>
+  </div>
+</div> 
+</div>
+
+  <div class="col-md-4"><div class="row">
+  <div class="col-md-8"><div class="card w-100 p-2">
+  <h5 class="card-header">Upcoming Contests</h5>
+  <div class="card-body">
+     <ul class="list-group list-group-flush">
+    <li class="list-group-item">Futur Work</li>
+    <li class="list-group-item">Futur Work</li>
+    <li class="list-group-item">Futur Work</li>
+    <li class="list-group-item">Futur Work</li>
+    <li class="list-group-item">Futur Work</li>
+    <li class="list-group-item">Futur Work</li>
+  </div>
+</div> </div></div>
+</div>  
+
+</section>
+
+
+
+
+  {% endblock content %}
+</div>

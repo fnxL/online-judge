@@ -1,0 +1,151 @@
+* {
+   
+    font-family: 'Poppins', sans-serif;
+}
+
+.menu-bar .navbar-brand {
+    font-weight: 600;
+    font-size: 25px;
+    margin: 0 30px;
+}
+
+.nav-item {
+    margin: 0 0.5rem;
+}
+.nav-link {
+    padding: 0.7rem 1rem;
+}
+.nav-item .active {
+    background: rgba(255,255,255,.1);
+    border-radius: 0.25rem;
+}
+
+.navbar-dark .nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    border-radius: 0.25rem;
+    color: #fff;
+}
+
+#navbarSupportedContent {
+    margin-right: 30px;
+}
+
+.usr {
+    margin-left: 8px;
+}
+
+/* Light Buttons */
+ 
+.is-link {
+    background-color: #eff1fa;
+    color: #3850b7;
+    font-size: 1rem;
+}
+
+.is-link:hover {
+    background-color: #e6e9f7;
+    border-color: transparent;
+    color: #3850b7;
+}
+
+.is-link:focus {
+    box-shadow: 0 0 0 0.125em rgb(72 95 199 / 25%);
+}
+ 
+.is-primary {
+    background-color: #ebfffc;
+    color: #00947e;
+    font-size: 1rem;
+}
+
+.is-primary:hover {
+    background-color: #defffa;
+    border-color: transparent;
+    color: #00947e;
+}
+.is-primary:focus {
+    box-shadow: 0 0 0 0.2em rgb(0 209 178 / 25%);
+}
+
+
+.hero {
+ background-color: #2b3137;
+ padding: 48px;
+ display: block;
+}
+
+.hero-inner {
+    margin: 0 auto;
+    max-width: 1100px;
+    padding: 0 20px;
+}
+
+.hero-tagline {
+    color: #fff;
+    font-size: 60px;
+    margin: 0;
+}
+
+.hero-subtitle {
+    color: #fff;
+    font-size: 25px;
+    margin: 0;  
+    text-align: center;
+   
+}
+.indexbtns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.breaker {
+    margin: 2rem 0;
+}
+.bg-success {
+    background-color: #effaf5!important;
+    color: #257953;
+}
+
+.bg-warningl {
+    background-color: #fffaeb !important;
+    color: #946c00;
+}
+
+.bg-danger {
+    background-color: #feecf0 !important;
+    color: #cc0f35;
+}
+ 
+footer {
+    margin-top: 1.5rem;
+}
+
+.no-padding {
+    padding: 0;
+    margin: 0;
+}
+
+ 
+/* Media Query Fix */
+@media (max-width: 767px) {
+    .card {
+        margin: 16px 0;
+    }
+}
+@media (max-width: 992px) {
+    .navbar-nav .nav-link {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin: 0.4rem 0;
+    }
+    #fix {
+        margin-bottom: 16px;
+    }
+
+}
+ 
+ 
+ 
