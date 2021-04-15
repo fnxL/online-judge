@@ -23,18 +23,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <!-- Link -->
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
+            {% with request.resolver_match.url_name as url_name %}
+            <li class="nav-item ripple">
+              <a class="nav-link {% if url_name == 'home' %}active{% endif %}" href="/">Home</a>
             </li>
             <li class="nav-item ripple">
-              <a class="nav-link waves-effect waves-light" href="#">Problems</a>
+              <a class="nav-link waves-effect waves-light {% if url_name == 'problem_list' %}active{% endif %}" href="/problems">Problems</a>
             </li>
             <li class="nav-item ripple">
-              <a class="nav-link" href="#">Status</a>
+              <a class="nav-link {% if url_name == 'status' %}active{% endif %}" href="#">Status</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ripple {% if url_name == 'about' %}active{% endif %}">
               <a class="nav-link" href="#">About</a>
             </li>
+            {% endwith %}
           </ul>
           <ul class="navbar-nav ms-auto d-flex flex-row me-3" id="fix">
             {% if request.user.is_authenticated %}

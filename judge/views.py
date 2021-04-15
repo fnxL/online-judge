@@ -48,5 +48,6 @@ def problem_list(request):
     """
     ...Display all problems in a table
     """
-    return
+    context = {}
+    return render(request, 'pages/problems.html', context)
     
