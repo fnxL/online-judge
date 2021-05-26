@@ -1,7 +1,4 @@
-* {
-   
-    font-family: 'Poppins', sans-serif;
-}
+ 
 
 .menu-bar .navbar-brand {
     font-weight: 600;
@@ -34,7 +31,9 @@
 .usr {
     margin-left: 8px;
 }
-
+body {
+    font-family: 'Poppins', sans-serif;
+}
 /* Light Buttons */
  
 .is-link {
@@ -75,6 +74,7 @@
  display: block;
 }
 
+ 
 .hero-inner {
     margin: 0 auto;
     max-width: 1100px;
@@ -127,6 +127,22 @@ footer {
     padding: 0;
     margin: 0;
 }
+
+
+
+.btncustom {
+    text-transform: uppercase;
+    vertical-align: bottom;
+    border: 0;
+    -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 20%), 0 2px 10px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 20%), 0 2px 10px 0 rgb(0 0 0 / 10%);
+    font-weight: 500;
+    padding: .625rem 1.5rem .5rem;
+    font-size: .75rem;
+    line-height: 1;
+}
+
+
 
  
 /* Media Query Fix */

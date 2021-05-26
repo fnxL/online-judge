@@ -8,10 +8,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from judge.models import *
- 
+from judge.forms import editorForm
 # Create your views here.
 
 def problem_page(request, problem_id):
+    form = editorForm()
     problem = Problems.objects.get(id=problem_id)
     title = problem.title
     statement = problem.problem_statement
@@ -20,57 +21,71 @@ def problem_page(request, problem_id):
     time_limit = problem.time_limit
     sample_input = problem.input_data
     sample_output = problem.output_data
+    chck = False
+
+    submissionHistory = Submissions.objects.filter(user=request.user,problemid=problem_id)
     
-    cont = {
+    
+    if request.method == 'POST':
+        chck = True;
+        if request.user.is_authenticated:
+            form = editorForm(request.POST)
+            if form.is_valid():
+         
+                language = form.cleaned_data['language']
+                sourcecode = request.POST.get('sourcecode')
+                
+                status_code, data = execute(sourcecode,language,test_cases,time_limit)
+
+                
+                if status_code == 400:
+                #Compile Error occured
+                    build_err = data
+                    messages.add_message(request, messages.INFO, build_err)
+
+                elif status_code == 300:
+                    msg = "Time Limit Exceeded"
+                    messages.warning(request,msg)
+                    obj = Submissions.objects.create(user=request.user, problemid=problem_id,sourcecode=sourcecode,verdict="TLE")
+
+
+                elif status_code == 200:
+                    # Compare with correct_output & give verdict
+                    # messages.success(request, data)
+                    # print(status_code,data)
+                    out = data.rstrip()
+                    #print(repr(out))
+                    
+                    correct_output = correct_output.replace('\r','')
+                    #print(repr(correct_output))
+                    if correct_output == out:
+                        msg = "Accepted"
+                        messages.success(request, msg)
+
+                        obj = Submissions.objects.create(user=request.user, problemid=problem_id,sourcecode=sourcecode,verdict="AC")
+                        #Mark this Problem as Solved for this user.
+                        obj2 = Data.objects.create(user=request.user, problemid=problem_id,status=True)
+                        
+                    else:
+                        #WA --> Submission History
+                        msg = "Wrong Answer"
+                        messages.error(request,msg)
+                        obj = Submissions.objects.create(user=request.user, problemid=problem_id,sourcecode=sourcecode,verdict="WA")
+    
+            else:
+                return redirect('login')
+    
+        
+    return render(request, "pages/problempage.html", {
         'title': title,
         'statement': statement,
         'sample_input': sample_input,
         'sample_output': sample_output,
         'timelimit': time_limit,
-    }  
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            language = request.POST.get('language')
-            sourcecode = request.POST.get('sourcecode')
-            status_code, data = execute(sourcecode,language,test_cases,time_limit)
-            if status_code == 400:
-                #Compile Error occured
-                build_err = data
-                messages.success(request, build_err)
-
-            elif status_code == 300:
-                msg = "Time Limit Exceeded"
-                messages.success(request, msg)
-                obj = Submissions.objects.create(user=request.user, problemid=problem_id,sourcecode=sourcecode,verdict="TLE")
-
-
-            elif status_code == 200:
-                # Compare with correct_output & give verdict
-                # messages.success(request, data)
-                # print(status_code,data)
-                out = data.rstrip()
-                #print(repr(out))
-                
-                correct_output = correct_output.replace('\r','')
-                #print(repr(correct_output))
-                if correct_output == out:
-                    msg = "Accepted"
-                    messages.success(request, msg)
-                    obj = Submissions.objects.create(user=request.user, problemid=problem_id,sourcecode=sourcecode,verdict="AC")
-                    #Mark this Problem as Solved for this user.
-                    obj2 = Data.objects.create(user=request.user, problemid=problem_id,status=True)
-                    
-                else:
-                    #WA --> Submission History
-                    msg = "Wrong Answer"
-                    messages.success(request,msg)
-                    obj = Submissions.objects.create(user=request.user, problemid=problem_id,sourcecode=sourcecode,verdict="WA")
- 
-        else:
-            return redirect('login')
-   
-     
-    return render(request, "pages/problempage.html", context=cont, status=200)
+        'formx': form,
+        'check': chck,
+        'history': submissionHistory
+    }  , status=200)
 
 
 # Only works for problem statement which contains first line as number of test cases.
@@ -109,7 +124,8 @@ def execute(sourcecode,language,test_cases, time_limit):
         'longpoll_timeout': time_limit,
         'api_key': 'guest' 
     }
-    response = requests.post(create_session, params=data)
+    response = requests.post(create_session, data=data)
+    print(response.text)
     response = json.loads(response.text)
     session_id = response['id']
 
@@ -118,7 +134,7 @@ def execute(sourcecode,language,test_cases, time_limit):
         'api_key': 'guest'
     }
     sleep(3)
-    resp = requests.get(get_details, params=status_data)
+    resp = requests.get(get_details, data=status_data)
     session_response = json.loads(resp.text)
     code_status = session_response['status']
 
@@ -151,6 +167,11 @@ def execute(sourcecode,language,test_cases, time_limit):
             status_code = 200
             print("OK")
             return status_code, code_output
+
+        else:
+            build_err = session_response['build_stderr']
+            status_code = 400
+            return status_code, build_err
 
 
 

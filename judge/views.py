@@ -1,14 +1,21 @@
+from judge.models import Problems
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
+from django.contrib import messages
 # Create your views here.
+ 
 
 # @login_required(login_url='login')
 def home(request):
-    
-    return render(request, "pages/home.html", context={}, status=200)
+    last5 = Problems.objects.all().order_by('-id')[:6]
+    diff = {'1': '<span class="badge bg-success">Easy</span>',
+            '2': '<span class="badge bg-warningl">Medium</span>',
+            '3': '<span class="badge bg-danger">Hard</span>'
+    }
+    return render(request, "pages/home.html", {'last5': last5, 'df': diff}, status=200)
 
 def log_out(request):
     logout(request)
@@ -37,6 +44,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,"ok")
             return redirect('login')
 
         # To do error handling...
@@ -48,6 +56,9 @@ def problem_list(request):
     """
     ...Display all problems in a table
     """
-    context = {}
-    return render(request, 'pages/problems.html', context)
+
+    data = Problems.objects.all()
+
+    
+    return render(request, 'pages/problems.html', {'problems': data})
     

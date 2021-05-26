@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CODEMIRROR_PATH = r"static/codemirror"
  
 # Application definition
 

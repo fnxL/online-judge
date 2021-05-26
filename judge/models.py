@@ -34,6 +34,8 @@ class Submissions(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+
+        
 class Data(models.Model):
     problemid = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -2,30 +2,285 @@
 
 {% block title %}{{title}}{% endblock title %}
 
+ 
 {% block content %}
-<h1> {{title}} </h1> <br>
-<p> {{statement}} </p> <br>
-<p> {{sample_input|linebreaks}} </p> <br>
-<p> {{sample_output|linebreaks}} </p> <br>
+{% include 'navbar.html' %}
+<link href="/static/css/codemirror.css" rel="stylesheet"/>
 
-<form method="POST" action="">
-    {% csrf_token %}
-    <label for="lang">Language</label>
-    <input type="number" name="language" id="lang">
-    <br><br>
-    <label for="lang">Code</label> <br>
-    <textarea id="source" name="sourcecode" rows="4" cols="50">
-    </textarea>
-    <br>
-    <input type="submit">
-</form>
+<link href="/static/css/monokai.css" rel="stylesheet"/>
+<style>
+.CodeMirror {
+    height: 100vh !important;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+ 
+</style>
+ 
+<div class="row mt-3" style="margin-left: 20px;margin-right: 20px;" >
+    <div class="col-md-6" >
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
+    <!-- Tabs navs -->
+<ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link active"
+      id="ex3-tab-1"
+      data-mdb-toggle="tab"
+      href="#ex3-tabs-1"
+      role="tab"
+      aria-controls="ex3-tabs-1"
+      aria-selected="true"
+      >Statement</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      id="ex3-tab-2"
+      data-mdb-toggle="tab"
+      href="#ex3-tabs-2"
+      role="tab"
+      aria-controls="ex3-tabs-2"
+      aria-selected="false"
+      >Status</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      id="ex3-tab-3"
+      data-mdb-toggle="tab"
+      href="#ex3-tabs-3"
+      role="tab"
+      aria-controls="ex3-tabs-3"
+      aria-selected="false"
+      >Submissions</a
+    >
+  </li>
 </ul>
+<!-- Tabs navs -->
+
+<!-- Tabs content -->
+<div class="tab-content" id="ex2-content">
+  <div
+    class="tab-pane fade show active"
+    id="ex3-tabs-1"
+    role="tabpanel"
+    aria-labelledby="ex3-tab-1"
+  >
+   {% comment %} Problem Statement {% endcomment %}
+   <h1 style="margin: 25px 0px;">{{title}}</h1>
+   <pre style="word-wrap: break-word; font-family: 'Poppins'; font-size: 1rem;">{{statement}} </pre> <br>
+    
+    <h3> Sample </h3>
+            <div class="table-responsive" style="margin-top:12px;">
+        <table class="table table-bordered table-sm ">
+            <thead>
+            <tr>
+                <th scope="col">Input</th>
+                <th scope="col">Output</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">{{sample_input|linebreaks}}</th>
+                <td> <br> {{sample_output|linebreaks}} </td>
+              
+            </tr>
+            
+            </tbody>
+        </table>
+        </div>
+ 
+  </div>
+  <div
+    class="tab-pane fade"
+    id="ex3-tabs-2"
+    role="tabpanel"
+    aria-labelledby="ex3-tab-2"
+  >
+
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <div class="alert alert-danger" role="alert">
+            <i class="fas fa-times"></i>
+                <strong> Compile Error </strong>
+            </div><br>
+            <p class="note note-danger">
+             {{message}}
+            </p>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                <div class="alert alert-warning" role="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                Time Limit Exceeded
+              </div>
+            
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+               <div class="alert alert-success" role="alert">
+               <i class="fas fa-check"></i>
+                Accepted
+              </div>
+            
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+               <div class="alert alert-danger" role="alert">
+               <i class="fas fa-times"></i>
+                Wrong Answer
+              </div>
+            
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+        <div id="spinnerx" style="display: none;
+        justify-content: center;
+        height: 80vh;
+        align-items: center;
+        align-content: center;">
+        <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="ex3-tabs-3"
+    role="tabpanel"
+    aria-labelledby="ex3-tab-3"
+  >
+
+<div class="datable" data-mdb-bordered="true">
+<table class="datatable table">
+    <thead>
+    <tr>
+        <th data-mdb-sort="false" data-mdb-fixed="true" data-mdb-width="100"><strong>Date</strong></th>
+        <th><strong>Result<strong></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in history  %}
+    <tr>
+        <td>{{i.submit_date}}</td>
+        <td>{% if i.verdict == "AC" %}<span class="badge bg-success">AC</span>{% endif %}
+            {% if i.verdict == "WA" %}<span class="badge bg-danger">WA</span>{% endif %}
+            {% if i.verdict == "TLE" %}<span class="badge bg-warningl">TLE</span>{% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+  </div>
+</div>
+<!-- Tabs content -->
+
+
+
+    {% comment %} END {% endcomment %}
+ 
+  
+    </div>
+    <div class="col-md-6"> 
+    <form method="POST" action="">
+    
+    {% csrf_token %}
+    
+    {{formx}}
+    <input onclick=spinner() type="submit" class="btn is-primary ripple">
+    </form>
+ 
+    </div>
+
+</div>
+        
+ 
+
+
+
+<script src="/static/js/codemirror.js"></script>
+<script src="/static/js/python.js"></script>
+<script src="/static/js/clike.js"></script>
+<script src="/static/js/javascript.js"></script>
+<script src="/static/js/closetag.js"></script>
+<script src="/static/js/closebrackets.js"></script>
+<script src="/static/js/matchbrackets.js"></script>
+ 
+<script>
+var txtaria = document.getElementById('source')
+var editor = CodeMirror.fromTextArea(document.getElementById('source'), {
+
+    mode: "text/x-c++src",
+    theme: "monokai",
+    lineNumbers: true,
+    autoCloseTags: true,
+    autoCloseBrackets: true,
+    autoMatchBrackets: true,
+    indentUnit: 4,
+    indentWithTabs: true
+});
+
+var modeinput = document.getElementById('lang')
+
+function loader() {
+    const triggerEl = document.querySelector('#ex1 a[href="#ex3-tabs-2"]');
+    mdb.Tab.getInstance(triggerEl).show(); // Select tab by name    
+}
+{% if check %}
+    document.addEventListener("DOMContentLoaded", function () {
+        loader();   
+    });
 {% endif %}
 
+
+function spinner() {
+    loader();
+    element = document.getElementById('spinnerx');
+    element.style.display = 'flex';
+    
+}
+
+function selectMode() {
+
+ 
+    txtaria.value = '';
+  
+    var index = modeinput.selectedIndex;
+    console.log(index)
+    if(index == 0) {
+        finalmode = "text/x-c++src";
+        editor.setValue("#include <iostream>\nusing namespace std;\n\nint main() {\n\tint t;\n\tcin >> t;\n\twhile(t--){\n	\t\t// Write your code here....\n\t}\n\n\treturn 0;\n}");
+    }else if (index == 1) {
+        editor.setValue("#include <stdio.h>\n#include <conio.h>\nint main() {\n\tint t;\n\tscanf('%d',t)\n\twhile(t--) {\n\t\t//Write your code here...\n\n\t}\n\n\treturn 0;\n}");
+        finalmode = "text/x-csrc";
+    }else if (index == 2) {
+        finalmode = "text/x-java";
+        editor.setValue("public class MyFirstJavaProgram {\n\n\tpublic static void main(String []args) {\n\t\t // Write your code here...\n\t}\n}");
+    }else if (index == 3) {
+        finalmode = "text/x-python";
+        editor.setValue("#Write your code here...")
+    }else if (index == 4) {
+        editor.setValue("//Write your code here...")
+        finalmode = "text/javascript";
+    }
+    editor.setOption("mode", finalmode);
+}
+
+function updateTextArea() {
+        editor.save();
+         
+}
+    
+editor.on('change', updateTextArea);
+ 
+ 
+</script>
+
+
+{% include 'footer.html' %}
 {% endblock content %}
